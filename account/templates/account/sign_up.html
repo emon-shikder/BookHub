@@ -1,0 +1,166 @@
+{% extends "core/base.html" %}
+{% load widget_tweaks %}
+
+{% load static %}
+{% block title_block %}Sign Up{% endblock title_block %}
+{% block custom_header_links %}{% endblock custom_header_links %}
+
+{% block main_section_block %}
+<section class="py-12">
+    <div class="container mx-auto px-4">
+        {% if form.non_field_errors %}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Oops!</strong>
+            {% for error in form.non_field_errors %}
+            <span class="block sm:inline">{{ error }}</span>
+            {% endfor %}
+            <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20">
+                    <title>Close</title>
+                    <path
+                        d="M14.348 5.652a.5.5 0 0 0-.707 0L10 9.293 6.36 5.653a.5.5 0 1 0-.708.708L9.293 10l-3.64 3.64a.5.5 0 0 0 .708.708L10 10.707l3.64 3.64a.5.5 0 0 0 .708-.708L10.707 10l3.64-3.64a.5.5 0 0 0 0-.708z" />
+                </svg>
+            </span>
+        </div>
+        {% endif %}
+
+        <div class="w-full max-w-4xl mx-auto p-6 rounded-lg shadow-lg bg-white">
+            <h1 class="text-center text-3xl font-semibold mb-8">Sign Up</h1>
+
+            <form method="post" novalidate class="space-y-6">
+                {% csrf_token %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- First Name -->
+                    <div>
+                        <label for="{{form.first_name.id_for_label}}" class="block mb-2 font-medium text-gray-700">
+                            {{form.first_name.label}}
+                        </label>
+                        {{form.first_name|add_class:"w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"}}
+                        {% if form.first_name.errors %}
+                        <p class="text-red-600 mt-1">{{ form.first_name.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <!-- Last Name -->
+                    <div>
+                        <label for="{{form.last_name.id_for_label}}" class="block mb-2 font-medium text-gray-700">
+                            {{form.last_name.label}}
+                        </label>
+                        {{form.last_name|add_class:"w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"}}
+                        {% if form.last_name.errors %}
+                        <p class="text-red-600 mt-1">{{ form.last_name.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <!-- Username -->
+                    <div>
+                        <label for="{{form.username.id_for_label}}" class="block mb-2 font-medium text-gray-700">
+                            {{form.username.label}}
+                        </label>
+                        {{form.username|add_class:"w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"}}
+                        {% if form.username.errors %}
+                        <p class="text-red-600 mt-1">{{ form.username.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <!-- Email -->
+                    <div>
+                        <label for="{{form.email.id_for_label}}" class="block mb-2 font-medium text-gray-700">
+                            {{form.email.label}}
+                        </label>
+                        {{form.email|add_class:"w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"}}
+                        {% if form.email.errors %}
+                        <p class="text-red-600 mt-1">{{ form.email.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <!-- Password 1 -->
+                    <div>
+                        <label for="{{form.password1.id_for_label}}" class="block mb-2 font-medium text-gray-700">
+                            {{form.password1.label}}
+                        </label>
+                        {{form.password1|add_class:"w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"}}
+                        {% if form.password1.errors %}
+                        <p class="text-red-600 mt-1">{{ form.password1.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <!-- Password 2 -->
+                    <div>
+                        <label for="{{form.password2.id_for_label}}" class="block mb-2 font-medium text-gray-700">
+                            {{form.password2.label}}
+                        </label>
+                        {{form.password2|add_class:"w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"}}
+                        {% if form.password2.errors %}
+                        <p class="text-red-600 mt-1">{{ form.password2.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <!-- Gender -->
+                    <div>
+                        <label for="{{form.gender.id_for_label}}" class="block mb-2 font-medium text-gray-700">
+                            {{form.gender.label}}
+                        </label>
+                        {{form.gender|add_class:"w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"}}
+                        {% if form.gender.errors %}
+                        <p class="text-red-600 mt-1">{{ form.gender.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <!-- Birth Date -->
+                    <div>
+                        <label for="{{form.birth_date.id_for_label}}" class="block mb-2 font-medium text-gray-700">
+                            {{form.birth_date.label}}
+                        </label>
+                        {{form.birth_date|add_class:"w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"}}
+                        {% if form.birth_date.errors %}
+                        <p class="text-red-600 mt-1">{{ form.birth_date.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <!-- Address -->
+                    <div>
+                        <label for="{{form.street.id_for_label}}" class="block mb-2 font-medium text-gray-700">
+                            {{form.street.label}}
+                        </label>
+                        {{form.street|add_class:"w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"}}
+                        {% if form.street.errors %}
+                        <p class="text-red-600 mt-1">{{ form.street.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <!-- Post Code -->
+                    <div>
+                        <label for="{{form.post_code.id_for_label}}" class="block mb-2 font-medium text-gray-700">
+                            {{form.post_code.label}}
+                        </label>
+                        {{form.post_code|add_class:"w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"}}
+                        {% if form.post_code.errors %}
+                        <p class="text-red-600 mt-1">{{ form.post_code.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <!-- City -->
+                    <div>
+                        <label for="{{form.city.id_for_label}}" class="block mb-2 font-medium text-gray-700">
+                            {{form.city.label}}
+                        </label>
+                        {{form.city|add_class:"w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"}}
+                        {% if form.city.errors %}
+                        <p class="text-red-600 mt-1">{{ form.city.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <!-- Country -->
+                    <div>
+                        <label for="{{form.country.id_for_label}}" class="block mb-2 font-medium text-gray-700">
+                            {{form.country.label}}
+                        </label>
+                        {{form.country|add_class:"w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"}}
+                        {% if form.country.errors %}
+                        <p class="text-red-600 mt-1">{{ form.country.errors }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <button type="submit"
+                    class="w-full mt-6 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition duration-300">
+                    Sign Up
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock main_section_block %}
+
+{% block custom_footer_links %}{% endblock custom_footer_links %}

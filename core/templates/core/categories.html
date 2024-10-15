@@ -1,0 +1,17 @@
+{% extends "core/base.html" %}
+
+{% block title_block %}Categories{% endblock title_block %}
+
+{% block main_section_block %}
+<section class="mt-12 mb-12">
+    <div class="container mx-auto text-black">
+        <h1 class="text-4xl font-bold text-center mb-8">Categories</h1>
+        <div class="flex flex-wrap justify-center gap-6 bg-[#D8EFD3] rounded-xl shadow-md p-8">
+            {% for category in categories %}
+            <a href="{% url 'books_by_category' category.category_name %}" 
+                class="px-6 py-4 rounded-md bg-lime-200 text-gray-800 font-semibold hover:bg-lime-300 transition duration-300">{{ category.category_name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock main_section_block %}

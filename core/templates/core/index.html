@@ -1,0 +1,63 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title_block %}Home{% endblock title_block %}
+{% block custom_header_links %}{% endblock custom_header_links %}
+
+{% block hero_section_block %}
+<section class=" text-white py-20">
+    <div class="container mx-auto text-center">
+        <h1 class="text-5xl font-bold mb-4 text-black">Welcome to Book<span class="text-[#FF6600]">Hub</span></h1>
+        <p class="text-lg mb-8 text-black">Discover a world of knowledge and adventure through our extensive collection of books.</p>
+        <a href="{% url 'categories' %}" class="bg-[#55AD9B] text-white px-6 py-3 rounded-md text-lg hover:bg-[#3F8D7A] transition">Explore Categories</a>
+    </div>
+</section>
+{% endblock hero_section_block %}
+
+{% block main_section_block %}
+<section class="mt-12 mb-12">
+    <div class="container mx-auto">
+        <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">Our Categories</h1>
+        <div class="flex flex-wrap justify-center gap-6 bg-[#D8EFD3] rounded-xl shadow-md p-8">
+            {% for category in categories %}
+            <a href="{% url 'books_by_category' category.category_name %}" 
+                class="px-6 py-4 rounded-md bg-lime-200 text-gray-800 font-semibold hover:bg-lime-300 transition duration-300">{{ category.category_name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="mt-12 mb-12 ml-5 mr-5">
+    <div class="container mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-6">Featured Books</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for book in all_books %}
+            <div class="card card-compact bg-white shadow-lg rounded-lg overflow-hidden">
+                <figure>
+                    <img class="h-64  object-cover" src="{{ book.book_image.url }}" alt="{{ book.book_name }}" />
+                </figure>
+                <div class="card-body p-4">
+                    <h2 class="text-black card-title text-xl font-semibold">{{ book.book_name }}</h2>
+                    <p class="mt-2 text-black">Quantity: 
+                        {% if book.book_quantity > 0 %}
+                        <span class="text-green-600">In Stock | {{ book.book_quantity }}</span>
+                        {% else %}
+                        <span class="text-red-600">OUT OF STOCK</span>
+                        {% endif %}
+                    </p>
+                    <p class="mt-1 text-black">Price: <span class="font-bold">{{ book.book_price }}</span></p>
+                    <div class="my-2">
+                        <a class="w-auto p-1 text-sm text-white bg-[#A66E38] rounded-md hover:bg-[#3F8D7A]">{{ book.book_category.category_name }}</a>
+                    </div>
+                    <div class="card-actions justify-start">
+                        <a href="{% url 'book_detail' book.id %}" class="bg-[#55AD9B] px-4 py-2 rounded-md text-white hover:bg-[#3F8D7A]">Show Details</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center text-xl font-semibold mt-4">No books available.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock main_section_block %}

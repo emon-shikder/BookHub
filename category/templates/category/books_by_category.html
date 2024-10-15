@@ -1,0 +1,52 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title_block %}Books in {{ category.category_name }}{% endblock title_block %}
+{% block custom_header_links %}{% endblock custom_header_links %}
+
+{% block main_section_block %}
+<section class="py-8">
+    <div class="container mx-auto px-4 sm:px-8 max-w-screen-lg">
+        <h2 class="text-3xl font-semibold text-center mb-6">{{ category.category_name }} Books</h2>
+
+        {% if books %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for book in books %}
+                <div class="card bg-white shadow-md rounded-lg overflow-hidden">
+                    <figure>
+                        <img class="w-full h-80 object-cover" src="{{ book.book_image.url }}" alt="{{ book.book_name }}" />
+                    </figure>
+                    <div class="card-body p-4">
+                        <h2 class="card-title text-xl font-semibold text-black">{{ book.book_name }}</h2>
+                        <p class="mt-2">
+                            Quantity: 
+                            {% if book.book_quantity > 0 %}
+                                <span class="text-green-600">In Stock | {{ book.book_quantity }}</span>
+                            {% else %}
+                                <span class="text-red-500">OUT OF STOCK</span>
+                            {% endif %}
+                        </p>
+                        <p class="mt-1">Price: {{ book.book_price }}</p>
+                        <div class="my-3">
+                            <span class="inline-block bg-[#95D2B3] text-sm px-2 py-1 rounded">{{ book.book_category.category_name }}</span>
+                        </div>
+                        <div class="card-actions">
+                            <a href="{% url 'book_detail' book.id %}" 
+                               class="bg-[#55AD9B] text-white px-4 py-2 rounded-md hover:bg-[#3F8D7A] transition">
+                                Show Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center mt-10">
+                <p class="text-xl text-gray-600">No books available in this category.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock main_section_block %}
+
+{% block custom_footer_links %}{% endblock custom_footer_links %}

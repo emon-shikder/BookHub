@@ -1,0 +1,37 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title_block %}Deposit{% endblock title_block %}
+{% block custom_header_links %}{% endblock custom_header_links %}
+
+{% block main_section_block %}
+
+{% if messages %}
+<div class="container mx-auto mt-4">
+    {% for message in messages %}
+    <div class="alert {{ message.tags }} shadow-lg mb-4">
+        <div>
+            <span>{{ message }}</span>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-6 text-center">Deposit</h1>
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="id_transaction_amount" class="block text-sm font-medium text-gray-700">Amount</label>
+                <input type="number" id="id_transaction_amount" name="transaction_amount" placeholder="Enter amount"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+            <button type="submit"
+                class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Deposit</button>
+        </form>
+    </div>
+</div>
+{% endblock main_section_block %}
+
+{% block custom_footer_links %}{% endblock custom_footer_links %}

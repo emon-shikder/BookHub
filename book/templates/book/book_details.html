@@ -1,0 +1,135 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title_block %}Book Details{% endblock title_block %}
+{% block custom_header_links %}{% endblock custom_header_links %}
+
+{% block main_section_block %}
+
+{% if messages %}
+<div class="container mx-auto mt-4">
+    {% for message in messages %}
+    <div class="alert {{ message.tags }} shadow-lg mb-4">
+        <div>
+            <span>{{ message }}</span>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<section class="py-8">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-screen-md mx-auto flex flex-wrap gap-6 p-4">
+            <!-- Book Image -->
+            <div class="">
+                <img src="{{ book_details.book_image.url }}" alt="Book Image" class="w-full h-80 object-cover rounded-lg shadow-md">
+            </div>
+            
+            <!-- Book Info -->
+            <div class="w-full sm:w-[60%]">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-2">{{ book_details.book_title }}</h3>
+                <p class="text-gray-600 mb-4">by {{ book_details.book_publisher }}</p>
+                <p class="mb-2">Category: {{ book_details.book_category.category_name }}</p>
+                <p class="mb-4">
+                    {% if 0 < book_details.book_quantity %}
+                        <span class="text-green-600">In-Stock | {{ book_details.book_quantity }}</span>
+                    {% else %}
+                        <span class="text-red-500">OUT OF STOCK</span>
+                    {% endif %}
+                </p>
+                <p class="text-xl font-medium text-gray-900 mb-4">Price: ${{ book_details.book_price }}</p>
+
+                {% if user.is_authenticated %}
+                    <div class="mt-4">
+                        {% if flag %}
+                            <a href="{% url 'return' book_details.id %}" 
+                               class="bg-[#55AD9B] px-4 py-3 rounded-md text-black">Return</a>
+                        {% else %}
+                            <a href="{% url 'borrow' book_details.id %}" 
+                               class="bg-[#55AD9B] px-4 py-3 rounded-md text-black">Borrow</a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Book Specification Section -->
+        <div class="max-w-screen-md mx-auto bg-[#0D92F4] p-6 mt-8 rounded-lg shadow-lg">
+            <h1 class="text-2xl font-semibold text-gray-800 mb-6">Book Specification</h1>
+            <div class="space-y-4">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h2 class="text-lg font-medium text-gray-700">Title: <span class="text-gray-900 font-normal">{{ book_details.book_title }}</span></h2>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h2 class="text-lg font-medium text-gray-700">Description:</h2>
+                    <p class="text-gray-900">{{ book_details.book_description }}</p>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h2 class="text-lg font-medium text-gray-700">Book Edition: <span class="text-gray-900 font-normal">{{ book_details.book_edision }}</span></h2>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h2 class="text-lg font-medium text-gray-700">Number of Pages: <span class="text-gray-900 font-normal">{{ book_details.number_of_pages }}</span></h2>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h2 class="text-lg font-medium text-gray-700">Language: <span class="text-gray-900 font-normal">{{ book_details.book_language }}</span></h2>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h2 class="text-lg font-medium text-gray-700">Country: <span class="text-gray-900 font-normal">{{ book_details.book_origin }}</span></h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review Buttons -->
+        <div class="max-w-screen-md mx-auto flex gap-3 mt-4">
+            <button class="bg-[#55AD9B] text-white px-4 py-2 rounded-md" onclick="my_modal_1.showModal()">Reviews</button>
+
+            {% if user.is_authenticated and flag %}
+                <button class="bg-[#55AD9B] text-white px-4 py-2 rounded-md" onclick="my_modal_3.showModal()">Write Review</button>
+            {% endif %}
+        </div>
+
+        <!-- Write Review Modal -->
+        <dialog id="my_modal_3" class="modal">
+            <div class="modal-box">
+                <form method="dialog">
+                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                </form>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label for="id_reveiw_body" class="block text-sm font-bold mb-2">Review</label>
+                        {{ ReviewForm.reveiw_body }}
+                    </div>
+                    <button type="submit" class="bg-[#55AD9B] px-4 py-2 rounded-md">Post</button>
+                </form>
+            </div>
+        </dialog>
+
+        <!-- Reviews Modal -->
+        <dialog id="my_modal_1" class="modal">
+            <div class="modal-box">
+                <h1 class="mb-2 text-lg">Reviews</h1>
+                {% if reviews %}
+                    {% for review in reviews %}
+                        <div class="p-3 rounded-sm shadow-md mb-2">
+                            <h3 class="font-semibold">{{ review.user.username }}</h3>
+                            <small class="text-gray-500">{{ review.review_creation_time }}</small>
+                            <p class="mt-2">{{ review.reveiw_body }}</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No comments yet.</p>
+                {% endif %}
+                <div class="modal-action">
+                    <form method="dialog">
+                        <button class="btn">Close</button>
+                    </form>
+                </div>
+            </div>
+        </dialog>
+    </div>
+</section>
+{% endblock main_section_block %}
+
+{% block custom_footer_links %}{% endblock custom_footer_links %}

@@ -1,0 +1,138 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title_block %}Profile{% endblock title_block %}
+{% block custom_header_links %}{% endblock custom_header_links %}
+
+{% block main_section_block %}
+<section class="bg-gray-100 min-h-screen py-8">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Sidebar for Account Options -->
+            <div class="col-span-12 lg:col-span-3 bg-white p-4 rounded-lg shadow-md">
+                <div class="text-center mb-6">
+                    <h2 class="text-xl font-semibold text-gray-800">Hello, {{ user.first_name }}</h2>
+                    <p class="text-gray-600 mt-1">Balance: ${{ user.profile_info.balance }}</p>
+                </div>
+                <div class="flex justify-around gap-2 mb-6">
+                    <a href="{% url 'deposit_money' %}" 
+                       class="w-full text-center bg-emerald-500 text-white py-2 rounded-md hover:bg-emerald-600">
+                        Deposit
+                    </a>
+                    <a href="{% url 'withdraw_money' %}" 
+                       class="w-full text-center bg-emerald-500 text-white py-2 rounded-md hover:bg-emerald-600">
+                        Withdraw
+                    </a>
+                </div>
+                <ul class="space-y-4">
+                    <li><a href="{% url 'profile' 'account' %}" class="text-blue-600 hover:underline">Account</a></li>
+                    <li><a href="{% url 'profile' 'borrow' %}" class="text-blue-600 hover:underline">Borrow History</a></li>
+                    <li><a href="{% url 'profile' 'return' %}" class="text-blue-600 hover:underline">Return History</a></li>
+                    <li><a href="{% url 'profile' 'transactions' %}" class="text-blue-600 hover:underline">Transactions</a></li>
+                    <li><a href="{% url 'profile' 'reviews' %}" class="text-blue-600 hover:underline">Your Reviews</a></li>
+                </ul>
+            </div>
+
+            <!-- Main Content Section -->
+            <div class="col-span-12 lg:col-span-9 bg-white p-6 rounded-lg shadow-md">
+                {% if flag == 'account' %}
+                <div class="mb-6">
+                    <h1 class="text-2xl font-semibold text-gray-800 mb-4">Personal Information</h1>
+                    <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                    <p><strong>Username:</strong> {{ user.username }}</p>
+                    <p><strong>Birth Date:</strong> {{ user.profile_info.birth_date }}</p>
+                    <p><strong>Gender:</strong> {{ user.profile_info.gender }}</p>
+                </div>
+                <div class="mb-6">
+                    <h1 class="text-2xl font-semibold text-gray-800 mb-4">Email Address</h1>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-semibold text-gray-800 mb-4">Address</h1>
+                    <p><strong>Street:</strong> {{ user.profile_info.street }}</p>
+                    <p><strong>Post Code:</strong> {{ user.profile_info.post_code }}</p>
+                    <p><strong>City:</strong> {{ user.profile_info.city }}</p>
+                    <p><strong>Country:</strong> {{ user.profile_info.country }}</p>
+                </div>
+
+                {% elif flag == 'borrow' %}
+                <h1 class="text-2xl font-semibold text-gray-800 mb-4">Borrow History</h1>
+                <table class="table-auto w-full text-left">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="p-2">Book Name</th>
+                            <th class="p-2">Borrow Time</th>
+                            <th class="p-2">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for borrowed_book in borrowed_books %}
+                        <tr class="border-b">
+                            <td class="p-2">{{ borrowed_book.book.book_name }}</td>
+                            <td class="p-2">{{ borrowed_book.borrow_time }}</td>
+                            <td class="p-2">${{ borrowed_book.book.book_price }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {% elif flag == 'return' %}
+                <h1 class="text-2xl font-semibold text-gray-800 mb-4">Return History</h1>
+                <table class="table-auto w-full text-left">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="p-2">Book Name</th>
+                            <th class="p-2">Return Time</th>
+                            <th class="p-2">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for returned_book in returned_books %}
+                        <tr class="border-b">
+                            <td class="p-2">{{ returned_book.book.book_name }}</td>
+                            <td class="p-2">{{ returned_book.return_time }}</td>
+                            <td class="p-2">${{ returned_book.book.book_price }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {% elif flag == 'transactions' %}
+                <h1 class="text-2xl font-semibold text-gray-800 mb-4">Transaction History</h1>
+                <table class="table-auto w-full text-left">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="p-2">Transaction Type</th>
+                            <th class="p-2">Time</th>
+                            <th class="p-2">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transaction in transactions %}
+                        <tr class="border-b">
+                            <td class="p-2">{{ transaction.transaction_type }}</td>
+                            <td class="p-2">{{ transaction.transaction_time }}</td>
+                            <td class="p-2">${{ transaction.transaction_amount }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {% elif flag == 'reviews' %}
+                <h1 class="text-2xl font-semibold text-gray-800 mb-4">Your Reviews</h1>
+                <div class="space-y-4">
+                    {% for review in reviews %}
+                    <div class="p-4 bg-gray-50 rounded-lg shadow-md">
+                        <h3 class="font-semibold">{{ review.user.username }}</h3>
+                        <p class="text-gray-500">{{ review.review_creation_time }}</p>
+                        <p class="mt-2">{{ review.reveiw_body }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock main_section_block %}
+
+{% block custom_footer_links %}{% endblock custom_footer_links %}

@@ -1,0 +1,35 @@
+<div style="
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;">
+    
+    <h1 style="text-align: center; color: #333;">Transaction Summary</h1>
+    
+    <p style="font-size: 16px; color: #555;">
+        Hello <strong>{{ user.first_name }} {{ user.last_name }}</strong>,
+    </p>
+    
+    <p style="font-size: 16px; color: #555;">
+        Status: <span style="color: #55AD9B; font-weight: bold;">{{ operation }}</span>
+    </p>
+    
+    <p style="font-size: 16px; color: #555;">
+        Book Name: <strong>{{ book }}</strong>
+    </p>
+    
+    <p style="font-size: 16px; color: #555;">
+        Amount: <strong>${{ amount }}</strong>
+    </p>
+    
+    <p style="font-size: 16px; color: #555; margin-top: 20px;">
+        Thank you for being with us!
+    </p>
+    
+    <p style="font-size: 16px; color: #555; text-align: center; font-weight: bold;">
+        BookHub
+    </p>
+</div>

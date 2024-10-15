@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title_block %}{% endblock title_block %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.8/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% block custom_header_links %}{% endblock custom_header_links %}
+</head>
+
+<body class="bg-[#F1F8E8]">
+    <header>
+        
+        {% include "core/navbar.html" %}
+        {% block hero_section_block %}{% endblock hero_section_block %}
+    </header>
+    <main>
+        {% block main_section_block %}{% endblock main_section_block %}
+    </main>
+    {% include "core/footer.html" %}
+    {% block custom_footer_links %}{% endblock custom_footer_links %}
+</body>
+
+</html>

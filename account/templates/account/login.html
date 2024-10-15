@@ -1,0 +1,53 @@
+{% extends "core/base.html" %}
+{% load widget_tweaks %}
+{% block title_block %}Log In{% endblock title_block %}
+{% block custom_header_links %}{% endblock custom_header_links %}
+
+{% block main_section_block %}
+
+<section class="mt-20 mb-12">
+    <div class="container mx-auto px-4">
+        {% if form.non_field_errors %}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Oops!</strong>
+            {% for error in form.non_field_errors %}
+            <span class="block sm:inline">{{ error }}</span>
+            {% endfor %}
+            <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20">
+                    <title>Close</title>
+                    <path
+                        d="M14.348 5.652a.5.5 0 0 0-.707 0L10 9.293 6.36 5.653a.5.5 0 1 0-.708.708L9.293 10l-3.64 3.64a.5.5 0 0 0 .708.708L10 10.707l3.64 3.64a.5.5 0 0 0 .708-.708L10.707 10l3.64-3.64a.5.5 0 0 0 0-.708z" />
+                </svg>
+            </span>
+        </div>
+        {% endif %}
+        <div class="max-w-lg w-full mx-auto p-6 rounded-lg shadow-xl bg-white">
+            <h1 class="text-center text-2xl font-semibold mb-6">Log In</h1>
+            <form method="post" novalidate>
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="{{ form.username.id_for_label }}" class="block mb-2 text-gray-700">{{ form.username.label }}</label>
+                    {{ form.username|add_class:"w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500" }}
+                    {% if form.username.errors %}
+                    <p class="text-red-600 mt-1">{{ form.username.errors }}</p>
+                    {% endif %}
+                </div>
+                <div class="mb-4">
+                    <label for="{{ form.password.id_for_label }}" class="block mb-2 text-gray-700">{{ form.password.label }}</label>
+                    {{ form.password|add_class:"w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500" }}
+                    {% if form.password.errors %}
+                    <p class="text-red-600 mt-1">{{ form.password.errors }}</p>
+                    {% endif %}
+                </div>
+                <button type="submit"
+                    class="w-full mt-4 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition duration-300">Log
+                    In</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock main_section_block %}
+{% block custom_footer_links %}{% endblock custom_footer_links %}
