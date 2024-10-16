@@ -1,23 +1,17 @@
 {
-    "builds": [
-      {
-        "src": "BookHub/wsgi.py",
-        "use": "@vercel/python",
-        "config": {
-          "maxLambdaSize": "15mb",
-          "runtime": "python3.12.4"
-        }
+  "builds": [
+    {
+      "src": "BookHub/wsgi.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.12.4"
       }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "BookHub/wsgi.py"
-      }
-    ],
-    "rewrites": [
+    }
+  ],
+  "rewrites": [
     { "source": "/static/(.*)", "destination": "/static/$1" },
-    { "source": "/media/(.*)", "destination": "/media/$1" }
-    ]
-  }
-  
+    { "source": "/media/(.*)", "destination": "/media/$1" },
+    { "source": "/(.*)", "destination": "BookHub/wsgi.py" }
+  ]
+}
