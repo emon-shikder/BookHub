@@ -14,6 +14,10 @@
         "src": "/(.*)",
         "dest": "BookHub/wsgi.py"
       }
+    ],
+    "rewrites": [
+    { "source": "/static/(.*)", "destination": "/static/$1" },
+    { "source": "/media/(.*)", "destination": "/media/$1" }
     ]
   }
   

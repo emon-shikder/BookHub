@@ -23,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security settings
 SECRET_KEY = env("SECRET_KEY", default="fallback-secret-key")
-DEBUG = env.bool("DEBUG", default=True)
+DEBUG = env.bool("DEBUG", default=False)
 
 # Allowed hosts
-ALLOWED_HOSTS = ['*']  # Change this to your domain in production
+ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = ['https://*.your-domain.com', 'https://*.127.0.0.1']
 
 # Application definition
@@ -112,12 +112,14 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
 MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
